@@ -30,9 +30,9 @@ public class DrawingTools  implements GLEventListener {
         CircleTool circle1 = new CircleTool(ML);
         TriangleTool triangle1 = new TriangleTool();
         QuadTool quad1 = new QuadTool();
-        fileSave save1 = new fileSave();
-        fileOpen open1 = new fileOpen();
-        clearTool clear1 = new clearTool();
+        FileSave save1 = new FileSave();
+        FileOpen open1 = new FileOpen();
+        ClearTool clear1 = new ClearTool();
 
         if (GlobalVariable.penToolButton) {
             if (GlobalVariable.eraser_flag)
@@ -224,7 +224,7 @@ class CircleTool {
     }
 }
 
-class fileSave {
+class FileSave {
     public void screenshot(GLAutoDrawable glad) {
 
         AWTGLReadBufferUtil glReadBufferUtil = new AWTGLReadBufferUtil(glad.getGLProfile(), false);
@@ -248,7 +248,7 @@ class fileSave {
     }
 }
 
-class fileOpen {
+class FileOpen {
     public void openSesame(GL2 gl) {
         // This part dynamically resizes the window to adjust the given image
         // according to its resolution while maintaining compatibiltiy with
@@ -311,7 +311,7 @@ class fileOpen {
     }
 }
 
-class clearTool {
+class ClearTool {
     public void clearScreen(GL2 gl) {
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

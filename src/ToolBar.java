@@ -142,14 +142,17 @@ public class ToolBar extends JPanel implements ActionListener {
         GlobalVariable.currentAnimator.start();
 
         if(clicked == penTool) {
+            GlobalVariable.currentAnimator.start();
             GlobalVariable.penToolButton = true;
             GlobalVariable.eraser_flag = false;
         }
         else if(clicked == lineTool) {
+            GlobalVariable.currentAnimator.start();
             System.out.print("kk");
             GlobalVariable.lineToolButton = true;
         }
         else if(clicked == circleTool) {
+            GlobalVariable.currentAnimator.start();
             textPanel textPanel1 = new textPanel();
 
             int result = JOptionPane.showConfirmDialog(GlobalVariable.currentFrame, textPanel1,
@@ -160,16 +163,20 @@ public class ToolBar extends JPanel implements ActionListener {
             }
         }
         else if(clicked == triangleTool) {
+            GlobalVariable.currentAnimator.start();
             GlobalVariable.triangleToolButton = true;
         }
         else if(clicked == quadTool) {
+            GlobalVariable.currentAnimator.start();
             GlobalVariable.quadToolButton = true;
         }
         else if(clicked == eraserTool) {
+            GlobalVariable.currentAnimator.start();
             GlobalVariable.penToolButton = true;
             GlobalVariable.eraser_flag = true;
         }
         else if(clicked == clearTool) {
+            GlobalVariable.currentAnimator.start();
             if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
                     "Clear everything ?", "",
                     JOptionPane.YES_NO_OPTION,
@@ -178,6 +185,7 @@ public class ToolBar extends JPanel implements ActionListener {
             }
         }
         else if(clicked == saveTool) {
+            GlobalVariable.currentAnimator.start();
             String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
 
             if (extension.equals("png") || extension.equals("jpg")) {
@@ -195,8 +203,10 @@ public class ToolBar extends JPanel implements ActionListener {
 
                 JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
             }
+            GlobalVariable.currentAnimator.stop();
         }
         else if(clicked == openTool) {
+            GlobalVariable.currentAnimator.start();
             String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
 
             if (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
@@ -214,6 +224,7 @@ public class ToolBar extends JPanel implements ActionListener {
 
                 JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
             }
+            GlobalVariable.currentAnimator.stop();
         }
     }
 }
