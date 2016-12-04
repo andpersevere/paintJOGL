@@ -30,7 +30,7 @@ public class DrawingTools  implements GLEventListener {
         LineTool line1 = new LineTool(ML);
         TextTool Text1 = new TextTool(ML);
         TriangleTool triangle1 = new TriangleTool();
-        QuadTool quad1 = new QuadTool();
+        polygonTool quad1 = new polygonTool();
         RectangleTool rect1 = new RectangleTool(ML);
         FileSave save1 = new FileSave();
         FileOpen open1 = new FileOpen();
@@ -53,7 +53,7 @@ public class DrawingTools  implements GLEventListener {
         else if (GlobalVariable.triangleToolButton) {
             triangle1.triangle(gl);
         }
-        else if (GlobalVariable.quadToolButton) {
+        else if (GlobalVariable.polygonToolButton) {
             quad1.quad(gl);
         }
         else if(GlobalVariable.save) {
@@ -152,6 +152,7 @@ class LineTool {
     }
 }
 
+
 class TriangleTool {
 
     public void triangle(GL2 gl) {
@@ -173,7 +174,7 @@ class TriangleTool {
     }
 }
 
- class QuadTool {
+ class polygonTool {
 
     public void quad(GL2 gl) {
 

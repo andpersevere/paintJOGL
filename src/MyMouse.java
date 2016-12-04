@@ -24,7 +24,7 @@ public class MyMouse implements  MouseListener, MouseMotionListener {
             GlobalVariable.Y_poly[i] = ML.getYCoordinate();
             GlobalVariable.polygonCreator = GlobalVariable.polygonCreator % 3;
         }
-        else if(GlobalVariable.quadToolButton){
+        else if(GlobalVariable.polygonToolButton){
             GlobalVariable.polygonCreator++;
             i = GlobalVariable.polygonCreator;
             GlobalVariable.X_poly[i] = ML.getXCoordinate();

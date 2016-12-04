@@ -9,27 +9,37 @@ import java.awt.event.ActionListener;
 public class ToolBar extends JPanel implements ActionListener {
     private JToggleButton penTool;
     private JToggleButton lineTool;
+        private JToggleButton normal, axial;
+
     private JToggleButton triangleTool;
-    private JToggleButton quadTool;
+    private JToggleButton polygonTool;
     private JToggleButton rectTool;
+        private JToggleButton filled, empty;
     private JToggleButton textTool;
     private JToggleButton eraserTool;
     private JToggleButton clearTool;
     private JToggleButton saveTool;
     private JToggleButton openTool;
     private JTextField textField;
-    private JSeparator sep1, sep2, sep3, sep4;
+    private JSeparator sep1, sep2, sep3, sep4, sep5;
     private JSlider slider;
 
 
     public ToolBar(){
+
         penTool = new JToggleButton("Pen");
         lineTool = new JToggleButton("Line");
+            normal = new JRadioButton("Default");
+            axial = new JRadioButton("Axial");
+
         triangleTool = new JToggleButton("Triangle");
-        quadTool = new JToggleButton("Quad");
-        rectTool = new JToggleButton("Rect");
-        textTool = new JToggleButton("Text");
+        polygonTool = new JToggleButton("Polygon");
+        rectTool = new JToggleButton("Rectangle");
+            filled = new JRadioButton("Filled");
+            empty = new JRadioButton("Empty");
+
         eraserTool = new JToggleButton("Eraser");
+        textTool = new JToggleButton("Text");
         clearTool = new JToggleButton("ClearScr");
         saveTool = new JToggleButton("Save");
         openTool = new JToggleButton("Open");
@@ -46,6 +56,8 @@ public class ToolBar extends JPanel implements ActionListener {
         sep3.setPreferredSize(new Dimension(5, 30));
         sep4 = new JSeparator(JSeparator.VERTICAL);
         sep4.setPreferredSize(new Dimension(5, 30));
+        sep5 = new JSeparator(JSeparator.VERTICAL);
+        sep5.setPreferredSize(new Dimension(5, 30));
 
         slider = new JSlider(JSlider.HORIZONTAL, 0, 10, 7);
 
@@ -67,7 +79,7 @@ public class ToolBar extends JPanel implements ActionListener {
         penTool.addActionListener(this);
         lineTool.addActionListener(this);
         triangleTool.addActionListener(this);
-        quadTool.addActionListener(this);
+        polygonTool.addActionListener(this);
         rectTool.addActionListener(this);
         textTool.addActionListener(this);
         eraserTool.addActionListener(this);
@@ -83,12 +95,37 @@ public class ToolBar extends JPanel implements ActionListener {
 
         setLayout(new FlowLayout(FlowLayout.CENTER));
 
+
+
+        ButtonGroup group = new ButtonGroup();
+
+        ButtonGroup lineSubGroup = new ButtonGroup();
+        ButtonGroup fillSubGroup = new ButtonGroup();
+
+        group.add(penTool);
+        group.add(lineTool);
+        group.add(eraserTool);
+            lineSubGroup.add(normal);
+            lineSubGroup.add(axial);
+
+        group.add(triangleTool);
+        group.add(polygonTool);
+        group.add(rectTool);
+            fillSubGroup.add(empty);
+            fillSubGroup.add(filled);
+
+        group.add(textTool);
+        group.add(clearTool);
+        group.add(saveTool);
+        group.add(openTool);
+
+
         add(penTool);
         add(eraserTool);
         add(sep1);
         add(lineTool);
         add(triangleTool);
-        add(quadTool);
+        add(polygonTool);
         add(rectTool);
         add(textTool);
         add(sep2);
@@ -100,17 +137,6 @@ public class ToolBar extends JPanel implements ActionListener {
         add(sep4);
         add(slider);
 
-        ButtonGroup group = new ButtonGroup();
-        group.add(penTool);
-        group.add(lineTool);
-        group.add(triangleTool);
-        group.add(quadTool);
-        group.add(rectTool);
-        group.add(textTool);
-        group.add(eraserTool);
-        group.add(clearTool);
-        group.add(saveTool);
-        group.add(openTool);
 
         penTool.setBackground(Color.LIGHT_GRAY);
         penTool.setForeground(Color.BLACK);
@@ -120,8 +146,8 @@ public class ToolBar extends JPanel implements ActionListener {
         textTool.setForeground(Color.BLACK);
         triangleTool.setBackground(Color.LIGHT_GRAY);
         triangleTool.setForeground(Color.BLACK);
-        quadTool.setBackground(Color.LIGHT_GRAY);
-        quadTool.setForeground(Color.BLACK);
+        polygonTool.setBackground(Color.LIGHT_GRAY);
+        polygonTool.setForeground(Color.BLACK);
         rectTool.setBackground(Color.LIGHT_GRAY);
         rectTool.setForeground(Color.BLACK);
         eraserTool.setBackground(Color.LIGHT_GRAY);
@@ -138,10 +164,12 @@ public class ToolBar extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JToggleButton clicked = (JToggleButton)e.getSource();
 
+        // Here you have to search whidh group is the user interacting with.
+
         GlobalVariable.penToolButton = false;
         GlobalVariable.lineToolButton = false;
         GlobalVariable.triangleToolButton = false;
-        GlobalVariable.quadToolButton = false;
+        GlobalVariable.polygonToolButton = false;
         GlobalVariable.rectToolButton = false;
         GlobalVariable.textToolButton = false;
         GlobalVariable.eraser_flag = false;
@@ -152,14 +180,49 @@ public class ToolBar extends JPanel implements ActionListener {
         GlobalVariable.mouse_pressed = false;
 
         GlobalVariable.currentAnimator.start();
+        if((clicked == penTool)||(clicked == eraserTool)||(clicked == lineTool)) {
+            remove(filled);
+            remove(empty);
+            if(clicked == penTool) {
+                add(slider);
+                GlobalVariable.penToolButton = true;
+                GlobalVariable.eraser_flag = false;
+            }
+            else if(clicked == eraserTool) {
+                add(slider);
+                GlobalVariable.penToolButton = true;
+                GlobalVariable.eraser_flag = true;
+                validate();
+                repaint();
+            }
+            else if(clicked == lineTool) {
+                add(slider);
+                GlobalVariable.lineToolButton = true;
+                //add(normal);
+                //http://stackoverflow.com/questions/1097366/java-swing-revalidate-vs-repaint
+            }
+            validate();
+            repaint();
+        }
 
-        if(clicked == penTool) {
-            GlobalVariable.penToolButton = true;
-            GlobalVariable.eraser_flag = false;
+        else if((clicked == triangleTool)||(clicked == polygonTool)||(clicked == rectTool)){
+            remove(slider);
+            add(filled);
+            add(empty);
+            if(clicked == triangleTool) {
+                GlobalVariable.triangleToolButton = true;
+            }
+            else if(clicked == polygonTool) {
+                GlobalVariable.polygonToolButton = true;
+            }
+            else if(clicked == rectTool) {
+                GlobalVariable.rectToolButton = true;
+            }
+            validate();
+            repaint();
         }
-        else if(clicked == lineTool) {
-            GlobalVariable.lineToolButton = true;
-        }
+
+
         else if(clicked == textTool) {
             textPanel textPanel1 = new textPanel();
 
@@ -169,19 +232,6 @@ public class ToolBar extends JPanel implements ActionListener {
             if (result == JOptionPane.OK_OPTION) {
                 GlobalVariable.textToolButton = true;
             }
-        }
-        else if(clicked == triangleTool) {
-            GlobalVariable.triangleToolButton = true;
-        }
-        else if(clicked == quadTool) {
-            GlobalVariable.quadToolButton = true;
-        }
-        else if(clicked == rectTool) {
-            GlobalVariable.rectToolButton = true;
-        }
-        else if(clicked == eraserTool) {
-            GlobalVariable.penToolButton = true;
-            GlobalVariable.eraser_flag = true;
         }
         else if(clicked == clearTool) {
             if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,

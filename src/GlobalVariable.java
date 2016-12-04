@@ -20,7 +20,7 @@ public class GlobalVariable {
     public static boolean penToolButton = true;
     public static boolean lineToolButton = false;
     public static boolean triangleToolButton = false;
-    public static boolean quadToolButton = false;
+    public static boolean polygonToolButton = false;
     public static boolean textToolButton = false;
     public static boolean clearToolButton = false;
     public static boolean rectToolButton = false;
