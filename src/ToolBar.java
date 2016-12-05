@@ -4,17 +4,20 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class ToolBar extends JPanel implements ActionListener {
     private JToggleButton penTool;
     private JToggleButton lineTool;
-        private JToggleButton normal, axial;
+    private JToggleButton normal, axial;
 
     private JToggleButton triangleTool;
     private JToggleButton polygonTool;
     private JToggleButton rectTool;
-        private JToggleButton filled, empty;
+    private JToggleButton filled, empty;
+    private JComboBox combo2;
     private JToggleButton textTool;
     private JToggleButton eraserTool;
     private JToggleButton clearTool;
@@ -25,24 +28,86 @@ public class ToolBar extends JPanel implements ActionListener {
     private JSlider slider;
 
 
-    public ToolBar(){
+    public ToolBar() {
 
-        penTool = new JToggleButton("Pen");
-        lineTool = new JToggleButton("Line");
-            normal = new JRadioButton("Default");
-            axial = new JRadioButton("Axial");
+        penTool = new JToggleButton();
+        lineTool = new JToggleButton();
+        normal = new JRadioButton("Default");
+        normal.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        GlobalVariable.axial = false;
+                    }
+                }
+        );
+        axial = new JRadioButton("Axial");
+        axial.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        GlobalVariable.axial = true;
+                    }
+                }
+        );
+        normal.setSelected(true);
 
-        triangleTool = new JToggleButton("Triangle");
-        polygonTool = new JToggleButton("Polygon");
-        rectTool = new JToggleButton("Rectangle");
-            filled = new JRadioButton("Filled");
-            empty = new JRadioButton("Empty");
+        triangleTool = new JToggleButton();
+        polygonTool = new JToggleButton();
+        rectTool = new JToggleButton();
+        filled = new JRadioButton("Filled");
+        filled.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        GlobalVariable.empty = false;
+                    }
+                }
+        );
+        empty = new JRadioButton("Empty");
 
-        eraserTool = new JToggleButton("Eraser");
-        textTool = new JToggleButton("Text");
-        clearTool = new JToggleButton("ClearScr");
-        saveTool = new JToggleButton("Save");
-        openTool = new JToggleButton("Open");
+        empty.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        GlobalVariable.empty = true;
+                    }
+                }
+        );
+        filled.setSelected(true);
+
+        String[] polygons = {"Quadrilateral", "Pentagon", "Hexagon", "Heptagon", "Octagon", "NonaGon", "Any-gon"};
+        combo2 = new JComboBox(polygons);
+        combo2.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JComboBox cb = (JComboBox) e.getSource();
+
+                        if (cb == combo2) {
+                            String polygonName = (String) cb.getSelectedItem();
+
+                            if (polygonName.equals("Quadrilateral")) {
+                                GlobalVariable.polySides = 4;
+                            } else if (polygonName.equals("Pentagon")) {
+                                GlobalVariable.polySides = 5;
+                            } else if (polygonName.equals("Hexagon")) {
+                                GlobalVariable.polySides = 6;
+                            } else if (polygonName.equals("Heptagon")) {
+                                GlobalVariable.polySides = 7;
+                            } else if (polygonName.equals("Octagon")) {
+                                GlobalVariable.polySides = 8;
+                            } else if (polygonName.equals("Nonagon")) {
+                                GlobalVariable.polySides = 9;
+                            } else if (polygonName.equals("Any-gon")) {
+                                GlobalVariable.polySides = 10;
+                            }
+                        }
+                    }
+
+                }
+        );
+
+        eraserTool = new JToggleButton();
+        textTool = new JToggleButton();
+        clearTool = new JToggleButton();
+        saveTool = new JToggleButton();
+        openTool = new JToggleButton();
         textField = new JTextField(25);
 
         textField.setText(System.getProperty("user.dir"));
@@ -65,10 +130,9 @@ public class ToolBar extends JPanel implements ActionListener {
         slider.setMinorTickSpacing(1);
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
-        slider.addChangeListener(new ChangeListener(){
-            
+        slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                JSlider slideMark = (JSlider)e.getSource();
+                JSlider slideMark = (JSlider) e.getSource();
                 GlobalVariable.lineWidth = slideMark.getValue();
             }
         });
@@ -87,6 +151,27 @@ public class ToolBar extends JPanel implements ActionListener {
         saveTool.addActionListener(this);
         openTool.addActionListener(this);
 
+
+        penTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/pen.png")));
+        penTool.setToolTipText("Pen");
+        eraserTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/eraser.png")));
+        eraserTool.setToolTipText("Eraser");
+        lineTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/line.png")));
+        lineTool.setToolTipText("Line");
+            /*
+            normal.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/normal.png")));
+            normal.setToolTipText("Default");
+            axial.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/axial.png")));
+            axial.setToolTipText("Axial");
+            */
+        rectTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/rect.png")));
+        triangleTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/triangle.png")));
+        polygonTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/polygon.png")));
+        textTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/text.png")));
+        clearTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/clear.png")));
+        openTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/open.png")));
+        saveTool.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/save.png")));
+
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 // Lets leave it blank
@@ -94,7 +179,6 @@ public class ToolBar extends JPanel implements ActionListener {
         });
 
         setLayout(new FlowLayout(FlowLayout.CENTER));
-
 
 
         ButtonGroup group = new ButtonGroup();
@@ -105,14 +189,14 @@ public class ToolBar extends JPanel implements ActionListener {
         group.add(penTool);
         group.add(lineTool);
         group.add(eraserTool);
-            lineSubGroup.add(normal);
-            lineSubGroup.add(axial);
+        lineSubGroup.add(normal);
+        lineSubGroup.add(axial);
 
         group.add(triangleTool);
         group.add(polygonTool);
         group.add(rectTool);
-            fillSubGroup.add(empty);
-            fillSubGroup.add(filled);
+        fillSubGroup.add(empty);
+        fillSubGroup.add(filled);
 
         group.add(textTool);
         group.add(clearTool);
@@ -125,8 +209,8 @@ public class ToolBar extends JPanel implements ActionListener {
         add(sep1);
         add(lineTool);
         add(triangleTool);
-        add(polygonTool);
         add(rectTool);
+        add(polygonTool);
         add(textTool);
         add(sep2);
         add(openTool);
@@ -162,7 +246,7 @@ public class ToolBar extends JPanel implements ActionListener {
 
     //@Override
     public void actionPerformed(ActionEvent e) {
-        JToggleButton clicked = (JToggleButton)e.getSource();
+        JToggleButton clicked = (JToggleButton) e.getSource();
 
         // Here you have to search whidh group is the user interacting with.
 
@@ -180,104 +264,124 @@ public class ToolBar extends JPanel implements ActionListener {
         GlobalVariable.mouse_pressed = false;
 
         GlobalVariable.currentAnimator.start();
-        if((clicked == penTool)||(clicked == eraserTool)||(clicked == lineTool)) {
+        if ((clicked == penTool) || (clicked == eraserTool) || (clicked == lineTool)) {
             remove(filled);
+            remove(sep5);
             remove(empty);
-            if(clicked == penTool) {
+            remove(combo2);
+            remove(normal);
+            remove(axial);
+            if (clicked == penTool) {
                 add(slider);
                 GlobalVariable.penToolButton = true;
                 GlobalVariable.eraser_flag = false;
-            }
-            else if(clicked == eraserTool) {
+            } else if (clicked == eraserTool) {
                 add(slider);
                 GlobalVariable.penToolButton = true;
                 GlobalVariable.eraser_flag = true;
                 validate();
                 repaint();
-            }
-            else if(clicked == lineTool) {
+            } else if (clicked == lineTool) {
                 add(slider);
                 GlobalVariable.lineToolButton = true;
-                //add(normal);
+                add(sep5);
+                add(normal);
+                add(axial);
                 //http://stackoverflow.com/questions/1097366/java-swing-revalidate-vs-repaint
             }
             validate();
             repaint();
-        }
-
-        else if((clicked == triangleTool)||(clicked == polygonTool)||(clicked == rectTool)){
+        } else if ((clicked == triangleTool) || (clicked == polygonTool) || (clicked == rectTool)) {
             remove(slider);
+            remove(normal);
+            remove(axial);
+            remove(combo2);
             add(filled);
             add(empty);
-            if(clicked == triangleTool) {
+            add(sep5);
+            if (clicked == triangleTool) {
                 GlobalVariable.triangleToolButton = true;
-            }
-            else if(clicked == polygonTool) {
+                GlobalVariable.polySides = 3;
+                GlobalVariable.polygonCreator = -1;
+            } else if (clicked == polygonTool) {
                 GlobalVariable.polygonToolButton = true;
-            }
-            else if(clicked == rectTool) {
+                GlobalVariable.polygonCreator = -1;
+                add(combo2);
+            } else if (clicked == rectTool) {
                 GlobalVariable.rectToolButton = true;
             }
             validate();
             repaint();
         }
+        else {
+            remove(slider);
+            remove(normal);
+            remove(axial);
+            remove(combo2);
+            remove(filled);
+            remove(empty);
+            remove(sep5);
+            validate();
+            repaint();
+            if (clicked == textTool) {
+                textPanel textPanel1 = new textPanel();
 
+                int result = JOptionPane.showConfirmDialog(GlobalVariable.currentFrame, textPanel1,
+                        "Please Enter Values", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-        else if(clicked == textTool) {
-            textPanel textPanel1 = new textPanel();
-
-            int result = JOptionPane.showConfirmDialog(GlobalVariable.currentFrame, textPanel1,
-                    "Please Enter Values", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-            if (result == JOptionPane.OK_OPTION) {
-                GlobalVariable.textToolButton = true;
-            }
-        }
-        else if(clicked == clearTool) {
-            if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
-                    "Clear everything ?", "",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                GlobalVariable.clearToolButton = true;
-            }
-        }
-        else if(clicked == saveTool) {
-            String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
-
-            if (extension.equals("png") || extension.equals("jpg")) {
+                if (result == JOptionPane.OK_OPTION) {
+                    GlobalVariable.textToolButton = true;
+                }
+            } else if (clicked == clearTool) {
                 if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
-                        "Save this image ?", "Save Image",
+                        "Clear everything ?", "",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    GlobalVariable.save = true;
-                    GlobalVariable.text = textField.getText();
+                    GlobalVariable.clearToolButton = true;
+                }
+            } else if (clicked == saveTool) {
+                String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
+
+                if (extension.equals("png") || extension.equals("jpg")) {
+                    if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
+                            "Save this image ?", "Save Image",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                        GlobalVariable.save = true;
+                        GlobalVariable.text = textField.getText();
+                    }
+                } else {
+                    String message = "Please give a proper file-name !\n" +
+                            "Note that saving is only supported in '.png' & '.jpg' formats";
+
+                    JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
+                }
+            } else if (clicked == openTool) {
+                String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
+
+                if (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
+                    if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
+                            "Opening a new image will clear everything.\nSure to continue ?", "Open Image",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                        filterPanel filterPanel1 = new filterPanel();
+
+                        int result = JOptionPane.showConfirmDialog(GlobalVariable.currentFrame, filterPanel1,
+                                "Filter Choice", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            GlobalVariable.open = true;
+                            GlobalVariable.text = textField.getText();
+                        }
+                    }
+                } else {
+                    String message = "Please give a proper file-name !\n" +
+                            "Note that opening is only supported in '.png,' '.jpg' & '.jpeg' formats";
+
+                    JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
                 }
             }
-            else {
-                String message = "Please give a proper file-name !\n" +
-                        "Note that saving is only supported in '.png' & '.jpg' formats";
-
-                JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
-            }
         }
-        else if(clicked == openTool) {
-            String extension = GlobalVariable.tField.getText().substring(GlobalVariable.tField.getText().length() - 3);
 
-            if (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
-                if (JOptionPane.showConfirmDialog(GlobalVariable.currentFrame,
-                        "Opening a new image will clear everything.\nSure to continue ?", "Open Image",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    GlobalVariable.open = true;
-                    GlobalVariable.text = textField.getText();
-                }
-            }
-            else {
-                String message = "Please give a proper file-name !\n" +
-                        "Note that opening is only supported in '.png,' '.jpg' & '.jpeg' formats";
-
-                JOptionPane.showMessageDialog(GlobalVariable.currentFrame, message);
-            }
-        }
     }
 }

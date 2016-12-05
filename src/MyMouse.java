@@ -1,6 +1,7 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
 
 /**
  * Created by aakash on 28/8/16.
@@ -19,17 +20,23 @@ public class MyMouse implements  MouseListener, MouseMotionListener {
         GlobalVariable.lineCreator = false;
         if(GlobalVariable.triangleToolButton){
             GlobalVariable.polygonCreator++;
+            // PolygonCreator is the
             i = GlobalVariable.polygonCreator;
             GlobalVariable.X_poly[i] = ML.getXCoordinate();
             GlobalVariable.Y_poly[i] = ML.getYCoordinate();
-            GlobalVariable.polygonCreator = GlobalVariable.polygonCreator % 3;
+            Arrays.fill(GlobalVariable.X_poly, i, 10, GlobalVariable.X_poly[i]);
+            Arrays.fill(GlobalVariable.Y_poly, i, 10, GlobalVariable.Y_poly[i]);
+            GlobalVariable.polygonCreator = GlobalVariable.polygonCreator % GlobalVariable.polySides;
         }
         else if(GlobalVariable.polygonToolButton){
             GlobalVariable.polygonCreator++;
             i = GlobalVariable.polygonCreator;
             GlobalVariable.X_poly[i] = ML.getXCoordinate();
             GlobalVariable.Y_poly[i] = ML.getYCoordinate();
-            GlobalVariable.polygonCreator = GlobalVariable.polygonCreator % 4;
+            Arrays.fill(GlobalVariable.X_poly, i, 10, GlobalVariable.X_poly[i]);
+            Arrays.fill(GlobalVariable.Y_poly, i, 10, GlobalVariable.Y_poly[i]);
+            GlobalVariable.polygonCreator = GlobalVariable.polygonCreator % GlobalVariable.polySides;
+            System.out.println(GlobalVariable.empty);
         }
     }
 
@@ -58,6 +65,7 @@ public class MyMouse implements  MouseListener, MouseMotionListener {
         if(GlobalVariable.lineToolButton || GlobalVariable.textToolButton || GlobalVariable.rectToolButton) {
             ML.lineXEnd = ML.getXCoordinate();
             ML.lineYEnd = ML.getYCoordinate();
+
             GlobalVariable.lineCreator = true;
         }
     }

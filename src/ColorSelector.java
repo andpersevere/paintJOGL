@@ -77,6 +77,27 @@ public class ColorSelector extends JPanel implements ActionListener {
         group.add(cyanColor);
         group.add(brownColor);
 
+        redColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/red.png")));
+        redColor.setToolTipText("Open");
+        blackColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/black.png")));
+        blackColor.setToolTipText("Open");
+        blueColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/blue.png")));
+        blueColor.setToolTipText("Open");
+        violetColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/violet.png")));
+        violetColor.setToolTipText("Open");
+        greenColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/green.png")));
+        greenColor.setToolTipText("Open");
+        cyanColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/cyan.png")));
+        cyanColor.setToolTipText("Open");
+        greyColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/gray.png")));
+        greyColor.setToolTipText("Open");
+        yellowColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/yellow.png")));
+        yellowColor.setToolTipText("Open");
+        orangeColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/orange.png")));
+        orangeColor.setToolTipText("Open");
+        brownColor.setIcon(new ImageIcon(ToolBar.class.getResource("rsc/brown.png")));
+        brownColor.setToolTipText("Open");
+
         redColor.setForeground(Color.RED);
         greenColor.setForeground(Color.GREEN);
         blueColor.setForeground(Color.BLUE);
